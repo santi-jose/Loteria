@@ -3,20 +3,25 @@
 import { Card } from './Card';
 import cardsData from '../data/cards.json';
 
-console.log(cardsData);
-
 export class Deck{
-    deck: Card[];
+    deck: Card[]; // deck represented by array of Card
 
     constructor(){
-        // copy cardsData into deck array
+        // initialize deck as empty array
         this.deck = [];
         
-       for(const c of cardsData){
-        this.deck.push(new Card(c.id, c.name, c.description, c.image));
-       }
+        // copy cards from cardData into empty deck array
+        for(const c of cardsData){
+            this.deck.push(new Card(c.id, c.name, c.description, c.image));
+        }
     }
 
+    // count getter: Tells user the deck length
+    get count(): number{
+        return this.deck.length;
+    }
+
+    // shuffle function: shuffles the cards in the deck array
     shuffle(): void{
         for(let i = this.deck.length - 1; i > 0; i--){
             // pick random card from 0 to deck.length-1 to put at top of deck
@@ -34,6 +39,7 @@ export class Deck{
         }
     }
 
+    // draw function: removes and returns the card on top of the deck
     draw(): Card | undefined{
         return this.deck.pop();
     }
