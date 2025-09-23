@@ -52,5 +52,5 @@
   { "id": 51, "name": "La Palma", "description": "La Palma en frente de nuestra casa en Los Angeles se tenia que podar.", "image": "Placeholder.png" },
   { "id": 52, "name": "La Maceta", "description": "La Maceta que le compramos a mi abuelita quedo bonito en frente de su casa.", "image": "Placeholder.png" },
   { "id": 53, "name": "El Arpa", "description": "Espero escuchar la musica de El Arpa de un angel algun dia.", "image": "Placeholder.png" },
-  { "id": 54, "name": "La Rana", "description": "", "image": "" }
+  { "id": 54, "name": "La Rana", "description": "La Rana brinco de un lago a otro.", "image": "Placeholder.png" }
 ]
