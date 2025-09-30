@@ -18,10 +18,10 @@ describe('BoardTiles', () => {
         const card = new Card(cardData['id'], cardData['name'], cardData['description'], cardData['image']);
         const tile = new BoardTile(card);
 
-        expect(tile.Card.id).toBe(card.id);
-        expect(tile.Card.name).toBe(card.name);
-        expect(tile.Card.description).toBe(card.description);
-        expect(tile.Card.image).toBe(card.image);
+        expect(tile.Card.ID).toBe(card.ID);
+        expect(tile.Card.Name).toBe(card.Name);
+        expect(tile.Card.Description).toBe(card.Description);
+        expect(tile.Card.Image).toBe(card.Image);
     });
 
     it('toggles the boolean value stored within the BoardTile object', () => {

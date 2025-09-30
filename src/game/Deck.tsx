@@ -4,7 +4,7 @@ import { Card } from './Card';
 import cardsData from '../data/cards.json';
 
 export class Deck{
-    cards: Card[]; // deck represented by array of Card
+    private cards: Card[]; // deck represented by array of Card
 
     constructor(){
         // initialize deck as empty array
@@ -19,6 +19,10 @@ export class Deck{
     // count getter: Tells user the deck length
     get count(): number{
         return this.cards.length;
+    }
+
+    get Cards(): Card[]{
+        return this.cards;
     }
 
     // shuffle function: shuffles the cards in the deck array

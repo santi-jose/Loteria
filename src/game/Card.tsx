@@ -1,10 +1,10 @@
 // The Card class is a representation of the 54
 // different cards in the Loteria deck.
 export class Card{
-    readonly id: number;
-    readonly name: string;
-    readonly description: string;
-    readonly image: string;
+    private id: number;
+    private name: string;
+    private description: string;
+    private image: string;
 
     constructor(id: number, 
                 name: string, 
@@ -15,6 +15,23 @@ export class Card{
         this.name = name;
         this.description = description;
         this.image = image;
+    }
+
+    // getter functions to access data safely
+    get ID(): number{
+        return this.id;
+    }
+
+    get Name(): string{
+        return this.name;
+    }
+
+    get Description(): string{
+        return this.description;
+    }
+
+    get Image(): string{
+        return this.image;
     }
 }
 

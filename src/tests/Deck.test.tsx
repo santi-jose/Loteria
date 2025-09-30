@@ -28,10 +28,10 @@ describe('Deck', () => {
             const cardData = cardsData[i];
             const drawnCard = deck.draw();
 
-            expect(drawnCard?.id).toBe(cardData['id']);
-            expect(drawnCard?.name).toBe(cardData['name']);
-            expect(drawnCard?.description).toBe(cardData['description']);
-            expect(drawnCard?.image).toBe(cardData['image']);
+            expect(drawnCard?.ID).toBe(cardData['id']);
+            expect(drawnCard?.Name).toBe(cardData['name']);
+            expect(drawnCard?.Description).toBe(cardData['description']);
+            expect(drawnCard?.Image).toBe(cardData['image']);
         }
     });
 
@@ -57,9 +57,9 @@ describe('Deck', () => {
     // test 54 unique cards included in shuffled deck
     it('shuffle keeps all the same cards', () => {
         const deck = new Deck();
-        const before = [...deck.cards];
+        const before = [...deck.Cards];
         deck.shuffle();
-        const after = [...deck.cards];
+        const after = [...deck.Cards];
 
         expect(new Set(after)).toEqual(new Set(before));
     });
@@ -67,9 +67,9 @@ describe('Deck', () => {
     // test that the shuffle function changes the order of the deck
     it('shuffle produces different order most of the time', () => {
         const deck = new Deck();
-        const before = [...deck.cards];
+        const before = [...deck.Cards];
         deck.shuffle();
-        const after = [...deck.cards];
+        const after = [...deck.Cards];
 
         const isDifferent = before.some((card, i) => card !== after[i]);
         expect(isDifferent).toBe(true);

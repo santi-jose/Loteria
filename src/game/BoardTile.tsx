@@ -1,8 +1,8 @@
 import { Card } from './Card';
 
 export class BoardTile{
-    card: Card;
-    marked: boolean = false;
+    private card: Card;
+    private marked: boolean = false;
 
     constructor(card: Card){
         this.card = card;
