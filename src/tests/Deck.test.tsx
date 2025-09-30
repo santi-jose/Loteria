@@ -17,7 +17,7 @@ describe('Deck', () => {
         const drawnCard = deck.draw();
 
         expect(drawnCard).toBeDefined();
-        expect(deck.deck.length).toBe(initialCount - 1);
+        expect(deck.count).toBe(initialCount - 1);
     });
 
     // test the card contents of the Card at end of deck array
@@ -36,12 +36,42 @@ describe('Deck', () => {
     });
 
     // test undefined for empty deck
-    it('should return undefined if drawing from empty deck', () => {
+    it('should return undefined when drawing from empty deck', () => {
         const deck = new Deck();
         for(let i = 0; i < cardsData.length; i++){
             deck.draw();
         }
 
         expect(deck.draw()).toBeUndefined();
+    });
+
+    // test shuffle return full deck
+    it('shuffle keeps the same number of cards', () => {
+        const deck = new Deck();
+        const before = deck.count;
+        deck.shuffle();
+
+        expect(deck.count).toBe(before);
+    });
+
+    // test 54 unique cards included in shuffled deck
+    it('shuffle keeps all the same cards', () => {
+        const deck = new Deck();
+        const before = [...deck.deck];
+        deck.shuffle();
+        const after = [...deck.deck];
+
+        expect(new Set(after)).toEqual(new Set(before));
+    });
+
+    // test that the shuffle function changes the order of the deck
+    it('shuffle produces different order most of the time', () => {
+        const deck = new Deck();
+        const before = [...deck.deck];
+        deck.shuffle();
+        const after = [...deck.deck];
+
+        const isDifferent = before.some((card, i) => card !== after[i]);
+        expect(isDifferent).toBe(true);
     });
 });
