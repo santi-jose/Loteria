@@ -57,9 +57,9 @@ describe('Deck', () => {
     // test 54 unique cards included in shuffled deck
     it('shuffle keeps all the same cards', () => {
         const deck = new Deck();
-        const before = [...deck.deck];
+        const before = [...deck.cards];
         deck.shuffle();
-        const after = [...deck.deck];
+        const after = [...deck.cards];
 
         expect(new Set(after)).toEqual(new Set(before));
     });
@@ -67,9 +67,9 @@ describe('Deck', () => {
     // test that the shuffle function changes the order of the deck
     it('shuffle produces different order most of the time', () => {
         const deck = new Deck();
-        const before = [...deck.deck];
+        const before = [...deck.cards];
         deck.shuffle();
-        const after = [...deck.deck];
+        const after = [...deck.cards];
 
         const isDifferent = before.some((card, i) => card !== after[i]);
         expect(isDifferent).toBe(true);
