@@ -298,4 +298,17 @@ export class Board {
   toggle(i: number, j: number): void{
     this.grid[i][j].toggle();
   }
+
+  // given indices for row and column (i, j), returns
+  // the BoardTile at the indices within the grid
+  Tile(i: number, j: number): BoardTile{
+    return this.grid[i][j];
+  }
+
+  // given indices for row and column (i, j), returns
+  // the boolean value representing if the tile is marked
+  // false for unmarked and true for marked.
+  isMarked(i: number, j: number): boolean{
+    return this.grid[i][j].isMarked;
+  }
 }
