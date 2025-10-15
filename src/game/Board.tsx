@@ -301,7 +301,7 @@ export class Board {
 
   // given indices for row and column (i, j), returns
   // the BoardTile at the indices within the grid
-  Tile(i: number, j: number): BoardTile{
+  getTile(i: number, j: number): BoardTile{
     return this.grid[i][j];
   }
 
