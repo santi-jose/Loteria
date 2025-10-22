@@ -39,4 +39,49 @@ describe('Board', () => {
             expect(board.isMarked(i, j)).toBe(false);
         });
     });
+    it('toggles the BoardTile on and off to validate winning patterns', () => {
+        const board = new Board();
+        let winningPatterns = [];
+
+        console.log('Forward');
+
+        // iterate through rows
+        for(let i = 0; i < 4; i++){
+            // iterate through columns
+            for(let j = 0; j < 4; j++){
+                // print current 
+                console.log(`[i,j]: [${i}, ${j}]`);
+
+                // toggle current tile 
+                board.toggle(i, j);
+
+                // check patterns
+                winningPatterns = board.checkPatterns();
+
+                // print length of winningPatterns
+                console.log(`Current winningPatterns length: ${winningPatterns.length}`);
+            }
+        }
+
+        // iterate through board backwards
+        // iterate backwards through columns
+        console.log('Backwards');
+        for(let i = 3; i >= 0 ; i--){
+
+            // iterate backwards through rows
+            for(let j = 3; j >= 0; j--){
+                // print current tile
+                console.log(`[i,j]: [${i},${j}]`);
+
+                // toggle current tile
+                board.toggle(i, j);
+
+                // check patterns
+                winningPatterns = board.checkPatterns();
+
+                // print current winningPatterns length
+                console.log(`Current winningPatterns length: ${winningPatterns.length}`);
+            }
+        }
+    });
 });
