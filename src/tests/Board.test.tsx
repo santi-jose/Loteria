@@ -90,7 +90,7 @@ describe('Board', () => {
 
         // check empty checkPatterns() return before toggling
         if(WinPattern.winType !== 'FULL'){
-            expect(board.checkPatterns.length).toBe(0);
+            expect(board.checkPatterns().length).toBe(0);
         }
 
         // iterate through indices and toggle them
@@ -102,7 +102,7 @@ describe('Board', () => {
         });
 
         if(WinPattern.winType === 'FULL'){ // if the winType is FULL
-            expect(board.checkPatterns().length).toBe(20); // length of checkPatterns should return 20
+            expect(board.checkPatterns().length).toBe(Board.allPatterns.length); // length of checkPatterns should return 20
         }else{
             expect(board.checkPatterns().length).toBe(1); // length of checkPatterns should be 1
             expect(board.checkPatterns()[0].winType).toBe(WinPattern.winType); // ensure winType of recorded pattern matches current WinPattern 
