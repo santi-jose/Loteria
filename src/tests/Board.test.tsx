@@ -84,4 +84,28 @@ describe('Board', () => {
             }
         }
     });
+    // test each WinPattern within static field allPatterns
+    it.each(Board.allPatterns)(`detects %s correctly`, (WinPattern) => {
+        const board = new Board();
+
+        // check empty checkPatterns() return before toggling
+        if(WinPattern.winType !== 'FULL'){
+            expect(board.checkPatterns.length).toBe(0);
+        }
+
+        // iterate through indices and toggle them
+        WinPattern.indices.forEach(([i, j]) => {
+            if(WinPattern.winType !== 'FULL'){
+                expect(board.checkPatterns().length).toBe(0);
+            }
+            board.toggle(i, j);
+        });
+
+        if(WinPattern.winType === 'FULL'){ // if the winType is FULL
+            expect(board.checkPatterns().length).toBe(20); // length of checkPatterns should return 20
+        }else{
+            expect(board.checkPatterns().length).toBe(1); // length of checkPatterns should be 1
+            expect(board.checkPatterns()[0].winType).toBe(WinPattern.winType); // ensure winType of recorded pattern matches current WinPattern 
+        }
+    });
 });
