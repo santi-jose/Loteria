@@ -18,7 +18,7 @@ export class Board {
 
   // static variable storing all different winning patterns to check
   // in the board state
-  private static allPatterns: WinPattern[] = [
+  public static allPatterns: WinPattern[] = [
     // ROW
     {
       winType: "ROW",
