@@ -1,3 +1,5 @@
+// The Board class represents the Board which the players
+// use to mark the Cards drawn and announced by the Dealer
 import { BoardTile } from "./BoardTile";
 import { Deck } from "./Deck";
 import { Card } from "./Card";
