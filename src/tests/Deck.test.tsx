@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { Card } from '../game/Card';
 import { Deck } from '../game/Deck';
 import cardsData from '../data/cards.json';
 
@@ -73,5 +74,31 @@ describe('Deck', () => {
 
         const isDifferent = before.some((card, i) => card !== after[i]);
         expect(isDifferent).toBe(true);
+    });
+    it('places new cards to the top of the deck', () => {
+        const deck = new Deck(false);
+        expect(deck.count).toBe(0);
+
+        cardsData.forEach((card) => {
+            // place card at top of deck
+            deck.place(new Card(card.id, card.name, card.description, card.image));
+        });
+
+        // expect a deck full of all 54 cards
+        expect(deck.count).toBe(54);
+
+        // iterate through cardsData backwards
+        const reverseDeck = [...cardsData].reverse();
+        reverseDeck.forEach((card) => {
+            // compare card drawn from top of deck to card at the top of deck
+            const currentCard = deck.draw();
+            expect(currentCard?.ID).toBe(card['id']);
+            expect(currentCard?.Name).toBe(card['name']);
+            expect(currentCard?.Description).toBe(card['description']);
+            expect(currentCard?.Image).toBe(card['image']);
+        });
+
+        // expect deck to be empty after drawing all cards
+        expect(deck.count).toBe(0);
     });
 });

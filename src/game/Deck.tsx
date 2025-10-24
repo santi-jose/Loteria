@@ -6,14 +6,16 @@ import cardsData from '../data/cards.json';
 export class Deck{
     private cards: Card[]; // deck represented by array of Card
 
-    constructor(){
+    constructor(deck = true){
         // initialize deck as empty array
         this.cards = [];
         
         // copy cards from cardData into empty deck array
-        for(const c of cardsData){
-            this.cards.push(new Card(c.id, c.name, c.description, c.image));
-        }
+        if(deck){
+            for(const c of cardsData){
+                this.cards.push(new Card(c.id, c.name, c.description, c.image));
+            }
+       }
     }
 
     // count getter: Tells user the deck length
@@ -46,6 +48,11 @@ export class Deck{
     // draw function: removes and returns the card on top of the deck
     draw(): Card | undefined{
         return this.cards.pop();
+    }
+
+    // place function: pushes the card fed into the function on top of the deck
+    place(newCard: Card): void{
+        this.cards.push(newCard);
     }
 }
 
