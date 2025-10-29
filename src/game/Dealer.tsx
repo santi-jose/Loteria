@@ -27,11 +27,11 @@ export class Dealer{
         this.cardsDrawn = new Deck(false);
     }
 
-    get Deck(){
+    getDeck(): Deck{
         return this.deck;
     }
 
-    get CardsDrawn(){
+    getCardsDrawn(): Deck{
         return this.cardsDrawn;
     }
 }
