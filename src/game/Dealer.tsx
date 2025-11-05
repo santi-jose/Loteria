@@ -13,6 +13,8 @@ export class Dealer{
         this.cardsDrawn = new Deck(false);
     }
 
+    // function returns the Card from the top of the deck
+    // also adds the card to the drawnCard deck
     announceCard(): Card | undefined{
         let drawnCard = this.deck.draw();
         if(drawnCard !== undefined){
@@ -21,12 +23,14 @@ export class Dealer{
         return drawnCard;
     }
 
+    // reset the Dealer decks to new.
     reset(): void{
         this.deck = new Deck();
         this.deck.shuffle();
         this.cardsDrawn = new Deck(false);
     }
 
+    // getters
     getDeck(): Deck{
         return this.deck;
     }
