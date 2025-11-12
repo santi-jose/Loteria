@@ -1,7 +1,7 @@
 import { Player } from "./Player";
 import { Card } from "./Card";
 
-export class AIPLayer extends Player{
+export class AIPlayer extends Player{
     private markAccuracy: number; // a number which determines the AIPlayers markAccuracy in percentage 1-100
     private markReaction: number; // a number which determines the AIPlayer's markReaction in percentage 1-100
     private loteriaAccuracy: number; // a number which determines the AIPlayer's loteriaAccuracy in percentage 1-100
@@ -28,7 +28,7 @@ export class AIPLayer extends Player{
         // Math.random() * 100 -> random floating point number from [0, 100)
         // Math.floor(Math.random()*100) -> random integer from [0, 100)
         // Math.floor((Math.random()*100)) + 1 -> random integer from [1, 101) -> [1, 100]
-        const randomPercent = Math.floor((Math.random()*100)) + 1;
+        const randomPercent = Math.floor(Math.random()*100) + 1;
 
         // check if our random number falls under the percentage that dictates
         // a hit for the AIPlayer
@@ -39,14 +39,14 @@ export class AIPLayer extends Player{
         if(randomPercent <= this.markAccuracy){ // check if AIPLayer marks the tile
             // mark the tile given the markReaction time
             // iterate through the board
-            outerLoop: for(let i = 0; i < 3; i ++){
-                for(let j = 0; j < 3; j++){
-                    if(announcedCard.ID === this.getBoard().getTile(i, j).Card.ID){ // if the announcedCard matches current tile's card
+            outerLoop: for(let i = 0; i < 4; i ++){
+                for(let j = 0; j < 4; j++){
+                    if(announcedCard.ID === this.Board.getTile(i, j).Card.ID){ // if the announcedCard matches current tile's card
                         // mark the card with a delay
                         setTimeout(() => {
-                            this.getBoard().getTile(i, j).toggle(); // toggle mark state of tile
-                        }, Math.floor(this.markReaction * pace));
-                        break outerLoop; // brak out of for loops 
+                            this.Board.getTile(i, j).toggle(); // toggle mark state of tile
+                        }, Math.floor(this.markReaction * pace * 1000));
+                        break outerLoop; // break out of for loops 
                     }
                 }
             }
@@ -58,17 +58,17 @@ export class AIPLayer extends Player{
     // accurately calls Loteria, and how long they take to call
     attemptLoteria(pace: number){
         // calculate the roll to attemptLoteria
-        const randomPercent = Math.floor((Math.random()*100)) + 1;
+        const randomPercent = Math.floor(Math.random()*100) + 1;
         
         // check if the Loteria call is valid
         if(randomPercent <= this.loteriaAccuracy){
             // if we have a winning pattern in
-            if(this.getBoard().checkPatterns().length > 0){
+            if(this.Board.checkPatterns().length > 0){
                 // call Loteria after timeout designated by loteriaReaction percentage
                 // and round pace
                 setTimeout(() => {
                     this.callLoteria();
-                }, Math.floor(this.loteriaReaction * pace))
+                }, Math.floor(this.loteriaReaction * pace * 1000))
             }
         }
     }
