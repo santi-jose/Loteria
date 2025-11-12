@@ -31,11 +31,11 @@ export class Dealer{
     }
 
     // getters
-    getDeck(): Deck{
+    get Deck(): Deck{
         return this.deck;
     }
 
-    getCardsDrawn(): Deck{
+    get CardsDrawn(): Deck{
         return this.cardsDrawn;
     }
 }
