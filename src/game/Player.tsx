@@ -24,15 +24,15 @@ export class Player{
     }
 
     // getters
-    getName(): string{
+    get Name(): string{
         return this.name;
     }
 
-    getBoard(): Board{
+    get Board(): Board{
         return this.board;
     }
 
-    getCalledLoteria(): boolean{
+    get CalledLoteria(): boolean{
         return this.calledLoteria;
     }
 }

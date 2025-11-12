@@ -7,19 +7,19 @@ describe('Dealer', () => {
         let deckCount = 54;
         let cardsDrawnCount = 0;
         const dealer = new Dealer();
-        expect(dealer.getDeck().count).toBe(deckCount);
-        expect(dealer.getCardsDrawn().count).toBe(cardsDrawnCount);
+        expect(dealer.Deck.count).toBe(deckCount);
+        expect(dealer.CardsDrawn.count).toBe(cardsDrawnCount);
 
         for(let i = 0; i < 54; i++){
             dealer.announceCard();
             deckCount--;
             cardsDrawnCount++;
-            expect(dealer.getDeck().count).toBe(deckCount);
-            expect(dealer.getCardsDrawn().count).toBe(cardsDrawnCount);
+            expect(dealer.Deck.count).toBe(deckCount);
+            expect(dealer.CardsDrawn.count).toBe(cardsDrawnCount);
         }
 
         dealer.reset();
-        expect(dealer.getDeck().count).toBe(54);
-        expect(dealer.getCardsDrawn().count).toBe(0);
+        expect(dealer.Deck.count).toBe(54);
+        expect(dealer.CardsDrawn.count).toBe(0);
     });
 })
