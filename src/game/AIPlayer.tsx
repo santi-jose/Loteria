@@ -74,7 +74,7 @@ export class AIPlayer extends Player{
     }
 
     // this function calls attemptMark and attemptLoteria to simulate
-    // the AIPlayer playing a round. It 
+    // the AIPlayer playing a round. 
     // @params: 
     // card: Card that was announced by the Dealer
     // pace: number that determines the duration of each round
