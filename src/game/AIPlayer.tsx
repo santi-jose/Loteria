@@ -3,9 +3,9 @@ import { Card } from "./Card";
 
 export class AIPlayer extends Player{
     private markAccuracy: number; // a number which determines the AIPlayers markAccuracy in percentage 1-100
-    private markReaction: number; // a number which determines the AIPlayer's markReaction in percentage 1-100
+    private markDelay: number; // a number which determines the AIPlayer's markDelay in percentage 1-100
     private loteriaAccuracy: number; // a number which determines the AIPlayer's loteriaAccuracy in percentage 1-100
-    private loteriaReaction: number; // a number which determines the AIPlayer's loteriaRection in percentage 1-100
+    private loteriaDelay: number; // a number which determines the AIPlayer's loteriaRection in percentage 1-100
 
     constructor(name: string, 
                 markAcc: number, 
@@ -15,12 +15,15 @@ export class AIPlayer extends Player{
         super(name);
 
         this.markAccuracy = markAcc;
-        this.markReaction = markReact;
+        this.markDelay = markReact;
         this.loteriaAccuracy = loteriaAcc;
-        this.loteriaReaction = loteriaReact;
+        this.loteriaDelay = loteriaReact;
+        if(this.loteriaDelay < this.markDelay){ // clamp value of loteriReaction
+            this.loteriaDelay = this.markDelay;
+        }
     }
 
-    // this function uses the markAccuracy and markReaction
+    // this function uses the markAccuracy and markDelay
     // member variables to calculate whether or not the AIPlayer
     // accurately marks their board, and how long they take to mark
     attemptMark(announcedCard: Card, pace: number){
@@ -37,7 +40,7 @@ export class AIPlayer extends Player{
         // we consider that a hit. And the AIPlayer marks their board. Otherwise the player does
         // nothing
         if(randomPercent <= this.markAccuracy){ // check if AIPLayer marks the tile
-            // mark the tile given the markReaction time
+            // mark the tile given the markDelay time
             // iterate through the board
             outerLoop: for(let i = 0; i < 4; i ++){
                 for(let j = 0; j < 4; j++){
@@ -45,7 +48,7 @@ export class AIPlayer extends Player{
                         // mark the card with a delay
                         setTimeout(() => {
                             this.Board.getTile(i, j).toggle(); // toggle mark state of tile
-                        }, Math.floor(this.markReaction * pace * 1000));
+                        }, Math.floor(this.markDelay * pace * 1000));
                         break outerLoop; // break out of for loops 
                     }
                 }
@@ -53,7 +56,7 @@ export class AIPlayer extends Player{
         } // else do nothing
     }
 
-    // this function uses the loteriaAccuracy, loteriaReaction
+    // this function uses the loteriaAccuracy, loteriaDelay
     // member variables to calculate whether or not the AIPlayer
     // accurately calls Loteria, and how long they take to call
     attemptLoteria(pace: number){
@@ -62,14 +65,13 @@ export class AIPlayer extends Player{
         
         // check if the Loteria call is valid
         if(randomPercent <= this.loteriaAccuracy){
-            // if we have a winning pattern in
-            if(this.Board.checkPatterns().length > 0){
-                // call Loteria after timeout designated by loteriaReaction percentage
-                // and round pace
-                setTimeout(() => {
+            // set timeout for attempting a call to Loteria this round
+            setTimeout(() => {
+                // if we have a winning pattern in
+                if(this.Board.checkPatterns().length > 0){
                     this.callLoteria();
-                }, Math.floor(this.loteriaReaction * pace * 1000))
-            }
+                }
+            }, Math.floor(this.loteriaDelay * pace * 1000));
         }
     }
 
