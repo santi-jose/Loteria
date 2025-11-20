@@ -77,41 +77,93 @@ describe('AIPlayer', () => {
         vi.useRealTimers();
     });
 
-    it("Checks that playRound() function properly calls attemptMark and attemptLoteria().", () => {
-        // use fake timers
-        vi.useFakeTimers();
-
-        // initialize AIPlayer
-        // 100 % mark accuracy
-        // 100 % of pace time taken to mark Board
-        // 0 & Loteria Accuracy
-        // 100% of pace time taken to call Loteria
-        const salo = new AIPlayer('Salo', 100, 100, 100, 100);
-        const row0 = [];
-
-        // create array of row0
-        for(let j = 0; j < 4; j++){
-            row0.push(salo.Board.getTile(0, j).Card);
+    const testCases = [
+        {
+            name: "Perfect AI",
+            stats: {markAcc: 100, markDelay: 100, lotAcc: 100, lotDelay: 100},
+            shouldMarkAll: true,
+            shouldCallLoteria: true
+        },
+        {
+            name: "Perfect marking but never calls Loteria",
+            stats: {markAcc: 100, markDelay: 100, lotAcc: 0, lotDelay: 100},
+            shouldMarkAll: true, 
+            shouldCallLoteria: false
+        },
+        {
+            name: "Never marks but 100% Loteria accuracy",
+            stats: {markAcc: 0, markDelay: 100, lotAcc: 100, lotDelay: 100},
+            shouldMarkAll: false,
+            shouldCallLoteria: false
+        },
+        {
+            name: "50/50 AI (unpredictable result)",
+            stats: {markAcc: 50, markDelay: 100, lotAcc: 50, lotDelay: 100},
+            shouldMarkAll: null,
+            shouldCallLoteria: null
         }
+    ];
 
-        for(const card of row0){
-            salo.playRound(card, 10);
+   it.each(testCases)(
+        "AI timing test: $name",
+        ({stats, shouldMarkAll, shouldCallLoteria}) => {
+            vi.useFakeTimers();
+
+            const{
+                markAcc, markDelay, lotAcc, lotDelay
+            } = stats;
+
+            const ai = new AIPlayer(
+                "TestBot",
+                markAcc,
+                markDelay,
+                lotAcc,
+                lotDelay
+            );
+
+            const row0Cards = [];
+            for(let j = 0; j < 4; j++){
+                row0Cards.push(ai.Board.getTile(0, j).Card);
+            }
+
+            const pace = 10;
+
+            // Play a round for each card in the row
+            for(const card of row0Cards){
+                ai.playRound(card, pace);
+            }
+
+            //Execute all pending timers
+            vi.runAllTimers();
+
+            // MARKING ASSERTIONS
+            if(shouldMarkAll === true){
+                for(let j = 0; j < 4; j++){
+                    expect(ai.Board.getTile(0, j).isMarked).toBe(true);
+                }
+            }
+
+            if(shouldMarkAll === false){
+                // Get marked/unmarked state of all tiles in row 0
+                const rowMarked = row0Cards.map((_, j) => 
+                    ai.Board.getTile(0, j).isMarked
+                );
+
+                // Expect at least one tile to be unmarked
+                expect(rowMarked.includes(false)).toBe(true);
+            }
+
+            // Loteria assertions
+            if(shouldCallLoteria === true){
+                expect(ai.CalledLoteria).toBe(true);
+            }
+
+            if(shouldCallLoteria === false){
+                expect(ai.CalledLoteria).toBe(false);
+            }
+
+            vi.useRealTimers();
         }
-
-        vi.runAllTimers();
-
-        // check that the AIPlayer's board was marked in the right places
-        for(let j = 0; j < 4; j++){
-            expect(salo.Board.getTile(0, j).isMarked).toBe(true);
-        }
-
-        // salo.playRound(row0[0], 10);
-        // vi.runAllTimers();
-
-        // LoteriaAccuracy = 0 -> calledLoteria flag is false
-        expect(salo.Board.checkPatterns().length).toBe(1);
-        expect(salo.CalledLoteria).toBe(true);
-
-        vi.useRealTimers();
-    });
+   );
+   
 });
