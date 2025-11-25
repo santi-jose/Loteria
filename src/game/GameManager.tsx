@@ -2,17 +2,21 @@ import { Dealer } from "./Dealer";
 import { Player } from "./Player";
 import { AIPlayer } from "./AIPlayer";
 import { GameConfig } from "./GameConfig";
+import { Card } from "./Card";
 
 export class GameManager{
     private state: string;
     private dealer: Dealer;
     private players: Player[] = [];
     private config: GameConfig;
+    private currentCard!: Card;
+    private winner: Player | undefined =  undefined;
 
     constructor(config: GameConfig){
-        this.state = "start";
+        this.state = "standby";
         this.dealer = new Dealer();
         this.config = config;
+        this.dealer.Deck.shuffle(); // shuffle deck
         
         // create and push user player into Player array
         this.players.push(new Player("Player 1"))
@@ -29,31 +33,38 @@ export class GameManager{
         }
     }
 
-    gameLoop(state: string): void{
-        switch(state){
-            case "start":
-                // reset the dealer state
-                this.dealer.reset();
-                this.state = "play";
-                break;
-            case "play":
+    gameLoop(): void{
+        switch(this.state){
+            // standby phase where we draw the card for the round. 
+            case "standby":
                 const currentCard = this.dealer.announceCard();
+                console.log(`Current Card in round: ${currentCard}`);
+
                 // if we receive undefined
                 // we ran out of cards
                 if(currentCard === undefined){
-                    state = "gameover"; // set state to gameover
+                    this.state = "gameover"; // set state to gameover
                     break; // break out of case play
                 }
-                // start the round 
+                this.currentCard = currentCard; // save currentCard to GameManager private variable
+
+                // queue next standby phase
                 setTimeout( () => {
-                    console.log(currentCard);
-                    // iterate through AIPlayers and play a round
-                    for(const player of this.players){
-                        if(player instanceof AIPlayer){
-                            player.playRound(currentCard, this.config.Pace);
-                        }
-                    }
+                    this.state = "standby";
                 }, this.config.Pace * 1000);
+
+                this.state = "play"; // set state to play
+                break;
+            case "play":
+                // play round
+                
+                // iterate through AIPlayers and play a round
+                for(const player of this.players){
+                    if(player instanceof AIPlayer){
+                        player.playRound(this.currentCard, this.config.Pace);
+                    }
+                }
+
                 // poll for the Loteria calls of players
                 for(const player of this.players){
                     if(player.CalledLoteria){
@@ -63,6 +74,11 @@ export class GameManager{
                 }
                 break;
             case "gameover":
+                if(this.winner === undefined){ // if we have no winner
+                    console.log(`Game Over. Deck ran out before a winner could be decided. Tie game!`);
+                }else{
+                    console.log(`Game Over. Player ${this.winner.Name} wins!`);
+                }
                 break;
         }
     }
@@ -81,32 +97,29 @@ export class GameManager{
             }
             // if the full pattern exists in the CardsDrawn deck
             if(valid === true){
+                this.winner = player; // save winner to 
                 this.state = "gameover"; // go to state gameover
-                break; // break out of patterns loop
+                break;
             }
         }
         // if we make it out of the loop without going to state gameover
         if(this.state !== "gameover"){
              // incur penalty for player
-            
-             // implement later
-             // I think the penalty will be invalidating a BoardTile
-             // in the player's board.
-             // for this the BoardTile class will need another field
-             // active: boolean
-             // this field would determine whether or not the tile 
-             // is a valid tile to check for winning patterns
-             // they all start as true. The penalty picks a random tile 
-             // to invalidate, setting valid to false. 
+            console.log("Invalid Loteria, Penalty applied.");
+            // apply penalty to random tile in palyer's board
+             const i = this.randomIndex();
+             const j = this.randomIndex();
+             player.Board.getTile(i, j).deactivate();
         }
-    }
-
-    endGame(winner: Player){
-
     }
 
     // helper function to return random number from 1 to 100
     private randomPercent(): number{
         return Math.floor((Math.random() * 100) + 1);
+    }
+
+    // helper function to return a random index value from 0 to 3
+    private randomIndex(): number{
+        return Math.floor((Math.random() * 4)); 
     }
 }
