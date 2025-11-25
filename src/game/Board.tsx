@@ -278,8 +278,8 @@ export class Board {
       let allMarked = true; // flag which tells us if we have a winning pattern
       for (const index of indices) {
         const tile = this.grid[index[0]][index[1]];
-        // check if tile  at given indices in grid is not marked
-        if (!tile.isMarked) {
+        // check if tile  at given indices in grid is not marked or inactive
+        if ((!tile.isMarked) || (!tile.Active)) {
           allMarked = false;
           break; // break if so
         }
