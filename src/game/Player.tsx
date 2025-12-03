@@ -4,6 +4,7 @@ export class Player{
     private name: string;
     private board: Board;
     private calledLoteria: boolean;
+    onLoteria?: () => void; // callback function
 
     constructor(name: string){
         this.name = name;
@@ -21,6 +22,7 @@ export class Player{
     // boolean flag to true
     callLoteria(): void{
         this.calledLoteria = true;
+        this.onLoteria?.();
     }
 
     // getters
