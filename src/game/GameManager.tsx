@@ -29,10 +29,10 @@ export class GameManager{
         // and push onto the Players array
         for(let i = 0; i < this.config.AICount; i++){
             this.players.push(new AIPlayer(`COM ${i}`, 
-                              this.randomPercent(), 
-                              this.randomPercent(),
-                              this.randomPercent(),
-                              this.randomPercent()
+                              100, 
+                              0.5,
+                              100,
+                              0.6
                               ));                 
         }
 
@@ -57,7 +57,7 @@ export class GameManager{
         }
         this.currentCard = currentCard;
         console.log(`Current Card in round: ${this.currentCard?.Name}`);
-        
+        this.printCardsDrawn();
         this.enterPlay();
     }
 
@@ -105,12 +105,12 @@ export class GameManager{
         const elapsed = (Date.now() - this.playStartTime) / 1000;
         this.remainingPlayTime = this.config.Pace - elapsed;
 
-        let validLoteria = true;
         // iterate through array of patterns within player Board
         for(const pattern of player.Board.checkPatterns()){
+            let validLoteria = true;
             for(const card of pattern.cards){
                 // if the card is not included in the cards seen deck 
-                if(!this.dealer.CardsDrawn.Cards.includes(card)){
+                if(!this.dealer.CardsDrawn.Cards.some(c => c.ID === card.ID)){
                     // current pattern is not valid
                     validLoteria = false;
                     break; // break to check next pattern
@@ -123,7 +123,7 @@ export class GameManager{
             }
         }
         // if we make it out of the loop without confirming validLoteria
-        if(!validLoteria){
+        if(this.winner === undefined){
              // incur penalty for player
             console.log(`Invalid Loteria call by ${player.Name}, Penalty applied.`);
             // apply penalty to random tile in palyer's board
@@ -158,5 +158,10 @@ export class GameManager{
             this.enterStandby();
         }, this.remainingPlayTime * 1000);
         console.log(`Play resumed for ${this.remainingPlayTime.toFixed(2)} seconds`);
+    }
+
+    printCardsDrawn(){
+        const cards = this.dealer.CardsDrawn.Cards.map(c => c.Name);
+        console.log(`CardsDrawn (${cards.length}): ${cards.join(", ")}`);
     }
 }

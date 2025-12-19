@@ -47,13 +47,17 @@ export class AIPlayer extends Player{
                     if(announcedCard.ID === this.Board.getTile(i, j).Card.ID){ // if the announcedCard matches current tile's card
                         // mark the card with a delay
                         setTimeout(() => {
+                            this.printBoard();
                             this.Board.getTile(i, j).toggle(); // toggle mark state of tile
+                            console.log(`${this.Name} marked tile (${i}, ${j}) for ${announcedCard.Name}`);
                         }, Math.floor(this.markDelay * pace * 1000));
                         break outerLoop; // break out of for loops 
                     }
                 }
             }
-        } // else do nothing
+        }else{
+            console.log(`${this.Name} failed to mark ${announcedCard.Name} (roll: ${randomPercent}, markAccuracy: ${this.markAccuracy})`);
+        }
     }
 
     // this function uses the loteriaAccuracy, loteriaDelay
@@ -69,9 +73,15 @@ export class AIPlayer extends Player{
             setTimeout(() => {
                 // if we have a winning pattern in
                 if(this.Board.checkPatterns().length > 0){
+                    console.log(`${this.Name} calls LOTERIA!`);
+                    this.printBoard();
                     this.callLoteria();
+                }else{
+                    console.log(`${this.Name} attempted Loteria but had no valid pattern`);
                 }
             }, Math.floor(this.loteriaDelay * pace * 1000));
+        }else{
+            console.log(`${this.Name} did not attempt Loteria (roll: ${randomPercent}, loteriaAccuracy: ${this.loteriaAccuracy})`);
         }
     }
 
@@ -83,5 +93,19 @@ export class AIPlayer extends Player{
     playRound(announcedCard: Card, pace: number){
         this.attemptMark(announcedCard, pace);
         this.attemptLoteria(pace);
+    }
+
+    // helper function to print the board state of the player
+    printBoard(): void{
+        console.log(`Board state for ${this.Name}`);
+        for(let i=0; i < 4; i++){
+            let row = "";
+            for(let j=0; j < 4; j++){
+                const tile = this.Board.getTile(i,j);
+                const mark = tile.isMarked ? "X": " ";
+                row += `[${mark} ${tile.Card.Name}] `;
+            }
+            console.log(row);
+        }
     }
 }
