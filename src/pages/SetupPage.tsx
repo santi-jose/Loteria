@@ -5,8 +5,10 @@ export default function SetupPage(){
     return(
         <>
             <h1>SetupPage</h1>
-            <GameConfigurationPanel />
-            <StartButton />
+            <form name="configSettings">
+                <GameConfigurationPanel />
+                <StartButton />
+            </form>
         </>
     );
 }

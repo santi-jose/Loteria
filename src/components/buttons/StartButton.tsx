@@ -1,7 +1,7 @@
 export default function StartButton(){
     return(
-        <>
-            <h2>StartButton</h2>
-        </>
+        <div>
+            <input name="startButton" id="startButton" type="submit" value="Start"></input>
+        </div>
     );
 }
