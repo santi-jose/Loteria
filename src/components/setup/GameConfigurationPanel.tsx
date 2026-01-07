@@ -1,10 +1,14 @@
 import WinConChecklist from "./WinConChecklist";
 import PaceDropdown from "./PaceDropdown";
 
-export default function GameConfigurationPanel(){
+type GameConfigurationProps = {
+    winCons: boolean[]
+}
+
+export default function GameConfigurationPanel({winCons}: GameConfigurationProps){
     return(
         <>
-            <WinConChecklist />
+            <WinConChecklist winCons={winCons} />
             <PaceDropdown />
         </>
     );

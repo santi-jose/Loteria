@@ -1,4 +1,8 @@
-export default function WinConChecklist(){
+type WinConProps = {
+    winCons: boolean[]
+}
+
+export default function WinConChecklist({ winCons }: WinConProps){
     return(
         <>
             <h3>Win Condition(s)</h3>
@@ -7,19 +11,22 @@ export default function WinConChecklist(){
     );
 
     function WinCons(){
-        let winCons: string[] = [
+        let winConTypes: string[] = [
             "Row",
             "Column",
             "Diagonal",
             "Complete",
             "Pozo"
         ];
+        function handleClick(){
+            
+        }
         return(
             <>
-                {winCons.map((winCon) => 
-                    <div key={winCon}>
-                        <input type="checkbox" id={winCon} name="winCon" value={winCon} />
-                        <label htmlFor={winCon}>{winCon}</label>
+                {winConTypes.map((winConType, index) => 
+                    <div key={winConType}>
+                        <input type="checkbox" id={winConType} name="winCon" value={winConType} checked={winCons[index]} onClick={handleClick}/>
+                        <label htmlFor={winConType}>{winConType}</label>
                     </div>
                 )}
             </>
