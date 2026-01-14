@@ -1,8 +1,9 @@
 type WinConProps = {
-    winCons: boolean[]
+    winCons: boolean[];
+    onToggleWinCon: (index: number) => void;
 }
 
-export default function WinConChecklist({ winCons }: WinConProps){
+export default function WinConChecklist({ winCons, onToggleWinCon }: WinConProps){
     return(
         <>
             <h3>Win Condition(s)</h3>
@@ -18,14 +19,19 @@ export default function WinConChecklist({ winCons }: WinConProps){
             "Complete",
             "Pozo"
         ];
-        function handleClick(){
-            
-        }
+
         return(
             <>
                 {winConTypes.map((winConType, index) => 
                     <div key={winConType}>
-                        <input type="checkbox" id={winConType} name="winCon" value={winConType} checked={winCons[index]} onClick={handleClick}/>
+                        <input 
+                                type="checkbox" 
+                                id={winConType} 
+                                name="winCon" 
+                                value={winConType} 
+                                checked={winCons[index]} 
+                                onChange={() => onToggleWinCon(index)}
+                        />
                         <label htmlFor={winConType}>{winConType}</label>
                     </div>
                 )}

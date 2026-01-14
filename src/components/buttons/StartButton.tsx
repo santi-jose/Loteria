@@ -1,7 +1,9 @@
-export default function StartButton(){
+type StartButtonProps = {
+    onStart: () => void;
+}
+
+export default function StartButton({onStart}: StartButtonProps){
     return(
-        <div>
-            <input name="startButton" id="startButton" type="submit" value="Start"></input>
-        </div>
+        <button onClick={onStart}>Start Game</button>
     );
 }
