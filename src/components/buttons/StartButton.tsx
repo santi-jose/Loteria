@@ -4,6 +4,8 @@ type StartButtonProps = {
 
 export default function StartButton({onStart}: StartButtonProps){
     return(
-        <button onClick={onStart}>Start Game</button>
+        <div>
+            <button onClick={onStart}>Start Game</button>
+        </div>
     );
 }

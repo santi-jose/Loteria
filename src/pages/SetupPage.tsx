@@ -2,8 +2,11 @@ import StartButton from "../components/buttons/StartButton";
 import GameConfigurationPanel from "../components/setup/GameConfigurationPanel";
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export default function SetupPage(){
+    const navigate = useNavigate();
+
     const [winCons, setWinCons] = useState([false, false, false, false, false]);
     const [pace, setPace] = useState(1);
 
@@ -17,6 +20,15 @@ export default function SetupPage(){
 
     const selectPace = (newPace: number) => {
         setPace(newPace);
+    }
+
+    const handleStartGame = () => {
+        const configuration = {
+            winCons,
+            pace
+        };
+
+        navigate("/gameplay", {state: configuration});
     }
 
     useEffect(() => {
@@ -36,7 +48,7 @@ export default function SetupPage(){
                 pace={pace}
                 onSelectPace={selectPace}
             />
-            <StartButton onStart={()=>console.log("Start Button Pressed")}/>
+            <StartButton onStart={handleStartGame}/>
         </>
     );
 }
