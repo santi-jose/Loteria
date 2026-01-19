@@ -1,7 +1,11 @@
-export default function PlayButton(){
+type PlayButtonProps = {
+    onPlay: () => void
+}
+
+export default function PlayButton({ onPlay }: PlayButtonProps){
     return(
         <>
-            <h2>PlayButton</h2>
+            <button onClick={onPlay}>PlayButton</button>
         </>
     );
 }

@@ -1,7 +1,24 @@
-export default function DisplayCard(){
+type DisplayCardProps = {
+        id: number,
+        name: string,
+        description: string,
+        image: string
+};
+
+export default function DisplayCard(DisplayCardProps: DisplayCardProps){
+
     return(
         <>
-            <h2>DisplayCard</h2>
+            <img src={DisplayCardProps.image} />
+            <div>
+                ID: {DisplayCardProps.id}
+            </div>
+            <div>
+                Name: {DisplayCardProps.name}
+            </div>
+            {/* <div>
+                Description: {DisplayCardProps.description}
+            </div> */}
         </>
     );
 }
