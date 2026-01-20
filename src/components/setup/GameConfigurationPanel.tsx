@@ -3,12 +3,12 @@ import PaceDropdown from "./PaceDropdown";
 
 type GameConfigurationPanelProps = {
     winCons: boolean[];
-    onToggleWinCon: (index: number) => void;
     pace: number;
+    onToggleWinCon: (index: number) => void;
     onSelectPace: (pace: number) => void;
 }
 
-export default function GameConfigurationPanel({winCons, onToggleWinCon, pace, onSelectPace}: GameConfigurationPanelProps){
+export default function GameConfigurationPanel({winCons, pace, onToggleWinCon, onSelectPace}: GameConfigurationPanelProps){
     return(
         <>
             <WinConChecklist winCons={winCons} onToggleWinCon={onToggleWinCon} />

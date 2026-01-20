@@ -44,8 +44,8 @@ export default function SetupPage(){
             <h1>SetupPage</h1>
             <GameConfigurationPanel 
                 winCons={winCons} 
-                onToggleWinCon={toggleWinCon}
                 pace={pace}
+                onToggleWinCon={toggleWinCon}
                 onSelectPace={selectPace}
             />
             <StartButton onStart={handleStartGame}/>
