@@ -1,7 +1,7 @@
 import ViewAIButton from "./ViewAIButton";
 
 type AIViewButtonsProps = {
-    onViewAIClick: () => void;
+    onViewAIClick: (i: number) => void;
     AIPlayerCount: number
 }
 
@@ -9,9 +9,7 @@ export default function AIViewButtons({onViewAIClick, AIPlayerCount}: AIViewButt
     const AIViewButtons = [];
 
     for(let i=1; i <= AIPlayerCount; i++){
-        AIViewButtons.push(<ViewAIButton id={i} key={i} onViewAIClick={()=>{
-            console.log(`ViewAI${i} Button clicked`);
-        }}/>);
+        AIViewButtons.push(<ViewAIButton id={i} key={i} onViewAIClick={onViewAIClick}/>);
     }
 
     return(

@@ -1,6 +1,6 @@
 type ViewAIButtonProps = {
     id: number,
-    onViewAIClick: () => void
+    onViewAIClick: (i: number) => void
 }
 
 export default function ViewAIButton({id, onViewAIClick}: ViewAIButtonProps){
@@ -8,7 +8,7 @@ export default function ViewAIButton({id, onViewAIClick}: ViewAIButtonProps){
         <button 
             className="AIButton" 
             id={id.toString()}
-            onClick={onViewAIClick}
+            onClick={()=>{onViewAIClick(id)}}
         >
         AI{id}
         </button>

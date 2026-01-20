@@ -16,7 +16,9 @@ export default function GameplayPage(){
     const [discardPileCount, setDiscardPile] = useState(0);
 
     // AIViewButtonsProps
-    const handleViewAIClick = () => {}
+    const handleViewAIClick = (i: number) => {
+        console.log(`ViewAIButton${i} clicked`);
+    }
 
     const AIPlayerCount = 4;
 
