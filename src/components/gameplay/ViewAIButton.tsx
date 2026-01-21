@@ -10,7 +10,7 @@ export default function ViewAIButton({id, onViewAIClick}: ViewAIButtonProps){
             id={id.toString()}
             onClick={()=>{onViewAIClick(id)}}
         >
-        AI{id}
+        AI_{id}
         </button>
     );
 }

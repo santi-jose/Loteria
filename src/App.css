@@ -22,6 +22,12 @@
   flex-direction: column;
 }
 
-.AIButton{
-  width: 25%
+.mainGamePanel{
+  display: flex;
+  flex-direction: row;
+}
+
+ActiveCardPanel{
+  display: flex;
+  flex-direction: column;
 }

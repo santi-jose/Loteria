@@ -1,7 +1,7 @@
 import ViewAIButton from "./ViewAIButton";
 
 type AIViewButtonsProps = {
-    onViewAIClick: (i: number) => void;
+    onViewAIClick: (i: number) => void,
     AIPlayerCount: number
 }
 
