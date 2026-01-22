@@ -10,7 +10,7 @@ export default function ActiveCardPanel({id, name, description, image}: ActiveCa
         <div>
             <img src={image}/>
             <div>
-                {"["+id+"] "+ name + ": " + description}
+                {"["+id+"] "+ name }
             </div>
         </div>
     );

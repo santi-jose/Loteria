@@ -27,7 +27,17 @@
   flex-direction: row;
 }
 
-ActiveCardPanel{
+.board{
   display: flex;
+  flex-direction: column;
+}
+
+.boardRow{
+  display:flex;
+  flex-direction: row;
+}
+
+.cardToggle{
+  display:flex;
   flex-direction: column;
 }
