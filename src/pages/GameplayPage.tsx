@@ -8,6 +8,7 @@ import ActiveCardPanel from "../components/gameplay/ActiveCardPanel";
 import ViewPlayerButton from "../components/gameplay/ViewPlayerButton";
 import PlayerOverlay from "../components/gameplay/overlays/PlayerOverlay";
 import { Board } from "../game/Board";
+import AIOverlay from "../components/gameplay/overlays/AIOverlay";
 
 export default function GameplayPage(){
     const location = useLocation();
@@ -15,6 +16,8 @@ export default function GameplayPage(){
     console.log(configuration);
 
     // const winCons = ["Row", "Column", "Diagonal", "Complete", "Pozo"];
+    const winCons = useState(configuration.winCons);
+    console.log(`winCons: ${winCons}`);
 
     // DealerPanel Props
     const [roundTimer, setRoundTimer] = useState(configuration.pace);
@@ -92,6 +95,14 @@ export default function GameplayPage(){
         [false, false, false, false]
     ]);
 
+    // CardToggle active prop
+    const [activeCardToggleGrid, setActiveCardToggleGrid] = useState([
+        [true, true, true, true],
+        [true, true, true, true],
+        [true, true, true, true],
+        [true, true, true, true]
+    ]);
+
     const handleToggleTile = (i: number, j: number) => {
         console.log(`Tile(${i}, ${j}) toggled!`);
         const newToggleGrid: boolean[][] = [];
@@ -150,8 +161,12 @@ export default function GameplayPage(){
             <PlayerOverlay 
                 rowArray={rowArray}
                 cardToggleGrid={cardToggleGrid}
+                activeCardToggleGrid={activeCardToggleGrid}
                 onToggleCard={handleToggleTile}
             />}
+            {overlayAIActive && 
+            <AIOverlay />
+            }
         </>
     );
 }

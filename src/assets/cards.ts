@@ -53,8 +53,10 @@ import card52 from "../assets/Placeholder.png";
 import card53 from "../assets/Placeholder.png";
 import card54 from "../assets/Placeholder.png";
 import markedCard from "../assets/MarkedCard.png";
+import inactiveCard from "../assets/Inactive.png";
 
 export const cardImages: Record<number, string> = {
+    55: inactiveCard,
     0: markedCard,
     1: card1,
     2: card2,
