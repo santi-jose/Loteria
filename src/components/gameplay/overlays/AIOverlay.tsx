@@ -1,19 +1,21 @@
 import Board from "./board/Board";
 import { BoardTile } from "../../../game/BoardTile";
+import CardState from "./card/CardState";
 
 type AIOverlayProps = {
     id: number;
-    rowArray: BoardTile[][];
+    boardTileGrid: BoardTile[][];
     cardToggleGrid: boolean[][];
     activeCardToggleGrid: boolean[][];
 }
 
-export default function AIOverlay({id, rowArray, cardToggleGrid, activeCardToggleGrid}: AIOverlayProps){
+export default function AIOverlay({id, boardTileGrid, cardToggleGrid, activeCardToggleGrid}: AIOverlayProps){
     return(
-        <div>
-            {`AI${id}Overlay`}
+        <div id={`${id}`}>
+            <h1>{`AI${id}Overlay`}</h1>
             <Board 
-                rowArray={rowArray}
+                CardComponent={CardState}
+                boardTileGrid={boardTileGrid}
                 cardToggleGrid={cardToggleGrid}
                 activeCardToggleGrid={activeCardToggleGrid}
                 onToggleCard={()=>(console.log('AIPlayer has no toggle'))}

@@ -71,7 +71,7 @@ export default function GameplayPage(){
         new Board(), new Board(), new Board(), new Board()
     ]);
 
-    // create arraty of BoardTile Grids 
+    // create array of BoardTile Grids 
     const aiBoardTileGrids = [
         extractBoardTileGrid(aiBoards[0]),
         extractBoardTileGrid(aiBoards[1]),
@@ -203,16 +203,16 @@ export default function GameplayPage(){
                 activeCardToggleGrid={activeCardToggleGrid}
                 onToggleCard={handleToggleTile}
             />}
-            {overlayAIActive.map((overlayActive, i) => {
-                return(
+            {overlayAIActive.map((overlayActive, i) => (
                 overlayActive && 
                 <AIOverlay 
-                    id={i + 1} 
-                    rowArray={aiBoardTileGrids[i]}
+                    key={i}
+                    id={i} 
+                    boardTileGrid={aiBoardTileGrids[i]}
                     cardToggleGrid={aiCardStateGrid[i]} 
                     activeCardToggleGrid={aiActiveCardToggleGrid[i]}
-                />)
-            })
+                />
+            ))
             }
         </>
     );

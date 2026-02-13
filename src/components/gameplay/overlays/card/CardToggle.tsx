@@ -1,16 +1,7 @@
-import { BoardTile } from "../../../../game/BoardTile";
 import { cardImages } from "../../../../assets/cards";
+import type { BaseCardProps, InteractiveCardProps } from "./cardTypes";
 
-type CardToggleProps = {
-    tile: BoardTile;
-    toggle: boolean;
-    active: boolean;
-    row: number;
-    col: number;
-    onToggleCard: (i: number, j: number) => void;
-}
-
-export default function CardToggle({tile, toggle, row, col, onToggleCard, active}: CardToggleProps){
+export default function CardToggle({id, tile, toggle, row, col, onToggleCard, active}: BaseCardProps & InteractiveCardProps){
     const card = tile.Card;
     let image;
     if(active){
@@ -20,8 +11,8 @@ export default function CardToggle({tile, toggle, row, col, onToggleCard, active
     }
     
     return(
-        <div className="cardToggle">
-            <h1>{"["+card.ID+"] "+card.Name}</h1>
+        <div id={`${id}`} className="cardToggle">
+            <h1>{`[${card.ID}] ${card.Name}`}</h1>
             <img src={image} onClick={() => active ? onToggleCard(row,col): null}/>
         </div>
     );

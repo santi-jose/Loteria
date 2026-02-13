@@ -1,5 +1,6 @@
 import Board from "./board/Board";
 import { BoardTile } from "../../../game/BoardTile";
+import CardToggle from "./card/CardToggle";
 
 type PlayerOverlayProps = {
     boardTileGrid: BoardTile[][];
@@ -12,7 +13,8 @@ export default function PlayerOverlay({ boardTileGrid, cardToggleGrid, activeCar
 
     return(
         <>
-            <Board 
+            <Board
+                CardComponent={CardToggle}
                 boardTileGrid={boardTileGrid} 
                 cardToggleGrid={cardToggleGrid} 
                 activeCardToggleGrid={activeCardToggleGrid}

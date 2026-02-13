@@ -1,7 +1,8 @@
 import { BoardTile } from "../../../../game/BoardTile";
-import CardToggle from "../card/CardToggle";
 
 type BoardRowProps = {
+    CardComponent: React.ComponentType<any>;
+    id: number;
     boardTileRow: BoardTile[];
     toggleArray: boolean[];
     activeToggleArray: boolean[];
@@ -9,15 +10,17 @@ type BoardRowProps = {
     onToggleCard: (i: number, j: number) => void;
 }
 
-export default function BoardRow({boardTileRow, toggleArray, activeToggleArray, row, onToggleCard}: BoardRowProps){
+export default function BoardRow({CardComponent, id, boardTileRow, toggleArray, activeToggleArray, row, onToggleCard}: BoardRowProps){
     return(
-        <div className="boardRow">
+        <div id={`${id}`} className="boardRow">
             {boardTileRow.map((tile, j) => (
-                <CardToggle 
+                <CardComponent 
+                    key={j}
+                    id={j}
                     tile={tile} 
-                    toggle={toggleArray[j]} 
+                    toggle={toggleArray[j]}
                     active={activeToggleArray[j]}
-                    row={row} 
+                    row={row}
                     col={j}
                     onToggleCard={onToggleCard}
                 />
