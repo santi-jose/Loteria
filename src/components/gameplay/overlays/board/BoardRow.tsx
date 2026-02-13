@@ -2,17 +2,17 @@ import { BoardTile } from "../../../../game/BoardTile";
 import CardToggle from "../card/CardToggle";
 
 type BoardRowProps = {
-    tileArray: BoardTile[];
+    boardTileRow: BoardTile[];
     toggleArray: boolean[];
     activeToggleArray: boolean[];
     row: number;
     onToggleCard: (i: number, j: number) => void;
 }
 
-export default function BoardRow({tileArray, toggleArray, activeToggleArray, row, onToggleCard}: BoardRowProps){
+export default function BoardRow({boardTileRow, toggleArray, activeToggleArray, row, onToggleCard}: BoardRowProps){
     return(
         <div className="boardRow">
-            {tileArray.map((tile, j) => (
+            {boardTileRow.map((tile, j) => (
                 <CardToggle 
                     tile={tile} 
                     toggle={toggleArray[j]} 
