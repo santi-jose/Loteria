@@ -1,8 +1,11 @@
-export default function CallLoteriaButton(){
+type CallLoteriaButtonProps = {
+    onCallLoteria: () => void;
+}
+
+export default function CallLoteriaButton({onCallLoteria}: CallLoteriaButtonProps){
     return(
-        <button>
+        <button onClick={onCallLoteria}>
             Call Loteria
         </button>
     );
-    
 }

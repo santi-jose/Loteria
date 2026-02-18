@@ -10,11 +10,14 @@ import PlayerOverlay from "../components/gameplay/overlays/PlayerOverlay";
 import { Board } from "../game/Board";
 import { BoardTile } from "../game/BoardTile";
 import AIOverlay from "../components/gameplay/overlays/AIOverlay";
+import { useNavigate } from "react-router-dom";
 
 export default function GameplayPage(){
     const location = useLocation();
     const configuration = location.state;
     console.log(configuration);
+
+    const navigate = useNavigate();
 
     // const winCons = ["Row", "Column", "Diagonal", "Complete", "Pozo"];
     const winCons = useState(configuration.winCons);
@@ -163,6 +166,29 @@ export default function GameplayPage(){
 
     console.log(cardToggleGrid)
 
+    // CallLoteriaButton prop
+    const validLoteria = useState(true);
+
+    const winnerData = useState({
+        name: "Player",
+        playerBoardTileGrid,
+        cardToggleGrid,
+        activeCardToggleGrid
+    });
+
+    const handleCallLoteria = () => {
+        // if we have a valid call to Loteria
+        if(validLoteria){
+            console.log("Valid call to Loteria! Game over.");
+            
+            navigate("/gameover");
+
+        }else{  // else incur penalty
+            console.log("Invalid call to Loteria, penalty incurred.")
+        }
+    }
+
+
     return (
         <>
             <h1>GameplayPage</h1>
@@ -202,6 +228,7 @@ export default function GameplayPage(){
                 cardToggleGrid={cardToggleGrid}
                 activeCardToggleGrid={activeCardToggleGrid}
                 onToggleCard={handleToggleTile}
+                onCallLoteria={handleCallLoteria}
             />}
             {overlayAIActive.map((overlayActive, i) => (
                 overlayActive && 
@@ -219,7 +246,7 @@ export default function GameplayPage(){
 }
 
 // helper function to extract grid representing the cards within a board
-function extractBoardTileGrid(board: Board): BoardTile[][]{
+export function extractBoardTileGrid(board: Board): BoardTile[][]{
     const boardTileGrid = [];
     // iterate through rows of Board
     for(let i = 0; i < 4; i++){

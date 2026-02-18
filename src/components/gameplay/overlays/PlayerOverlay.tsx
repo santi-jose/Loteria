@@ -1,4 +1,5 @@
 import Board from "./board/Board";
+import CallLoteriaButton from "./CallLoteriaButton";
 import { BoardTile } from "../../../game/BoardTile";
 import CardToggle from "./card/CardToggle";
 
@@ -7,9 +8,10 @@ type PlayerOverlayProps = {
     cardToggleGrid: boolean[][];
     activeCardToggleGrid: boolean[][];
     onToggleCard: (i: number, j: number) => void;
+    onCallLoteria: () => void;
 }
 
-export default function PlayerOverlay({ boardTileGrid, cardToggleGrid, activeCardToggleGrid, onToggleCard}: PlayerOverlayProps){
+export default function PlayerOverlay({ boardTileGrid, cardToggleGrid, activeCardToggleGrid, onToggleCard, onCallLoteria}: PlayerOverlayProps){
 
     return(
         <>
@@ -20,6 +22,7 @@ export default function PlayerOverlay({ boardTileGrid, cardToggleGrid, activeCar
                 activeCardToggleGrid={activeCardToggleGrid}
                 onToggleCard={onToggleCard}
             />
+            <CallLoteriaButton onCallLoteria={onCallLoteria}/>
         </>
     );
 }
