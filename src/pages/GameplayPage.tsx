@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import DealerPanel from "../components/gameplay/DealerPanel";
 import AIViewButtons from "../components/gameplay/AIViewButtons";
@@ -127,7 +127,7 @@ export default function GameplayPage(){
     ]);
 
     // create cardTile grid from player board
-    const playerBoardTileGrid = extractBoardTileGrid(playerBoard);
+    const [playerBoardTileGrid] = useState(extractBoardTileGrid(playerBoard));
 
     // CardToggle props
     const [cardToggleGrid, setToggleGrid] = useState([
@@ -169,19 +169,19 @@ export default function GameplayPage(){
     // CallLoteriaButton prop
     const validLoteria = useState(true);
 
-    const winnerData = useState({
+    const winnerData = {
         name: "Player",
         playerBoardTileGrid,
         cardToggleGrid,
         activeCardToggleGrid
-    });
+    };
 
     const handleCallLoteria = () => {
         // if we have a valid call to Loteria
         if(validLoteria){
             console.log("Valid call to Loteria! Game over.");
             
-            navigate("/gameover");
+            navigate("/gameover", {state: winnerData});
 
         }else{  // else incur penalty
             console.log("Invalid call to Loteria, penalty incurred.")
