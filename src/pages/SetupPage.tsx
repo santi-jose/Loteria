@@ -4,8 +4,12 @@ import GameConfigurationPanel from "../components/setup/GameConfigurationPanel";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
+import { useGame } from "../context/useGame";
+import { GameConfig } from "../game/GameConfig";
+
 export default function SetupPage(){
     const navigate = useNavigate();
+    const { setGameConfig } = useGame();
 
     const [winCons, setWinCons] = useState([false, false, false, false, false]);
     const [pace, setPace] = useState(1);
@@ -23,12 +27,11 @@ export default function SetupPage(){
     }
 
     const handleStartGame = () => {
-        const configuration = {
-            winCons,
-            pace
-        };
+        const config = new GameConfig(pace, winCons, 4);
+        console.log(config);
+        setGameConfig(config);
 
-        navigate("/gameplay", {state: configuration});
+        navigate("/gameplay");
     }
 
     useEffect(() => {
@@ -38,6 +41,10 @@ export default function SetupPage(){
     useEffect(() => {
         console.log("pace: ", pace);
     }, [pace]);
+
+    useEffect(() => {
+        console.log("gameConfig: ", GameConfig)
+    })
 
     return(
         <>
