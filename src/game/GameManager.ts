@@ -65,12 +65,13 @@ export class GameManager{
         this.state = "play";
         console.log("State = play");
 
+        this.remainingPlayTime = this.config.Pace;
         this.playStartTime = Date.now();
 
         // start timer for transition to standby
         this.playTimer = setTimeout(() => {
             this.enterStandby();
-        }, this.config.Pace * 1000);
+        }, this.remainingPlayTime * 1000);
 
         // trigger AIPlayers to play round
         for(const player of this.players){
@@ -103,7 +104,7 @@ export class GameManager{
 
         // calculate how much time was left in the round
         const elapsed = (Date.now() - this.playStartTime) / 1000;
-        this.remainingPlayTime = this.config.Pace - elapsed;
+        this.remainingPlayTime = this.remainingPlayTime - elapsed;
 
         // iterate through array of patterns within player Board
         for(const pattern of player.Board.checkPatterns()){
