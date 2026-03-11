@@ -41,7 +41,7 @@ export default function GameplayPage(){
 
         const manager = new GameManager(gameConfig);
         setGameManager(manager);
-        manager.enterStandby();
+        manager.startGame();
     }, [gameConfig]);
 
     // DealerPanel Props
