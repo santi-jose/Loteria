@@ -38,12 +38,4 @@ export class Dealer{
     get CardsDrawn(): Deck{
         return this.cardsDrawn;
     }
-
-    get DeckCount(): number{
-        return this.Deck.count
-    }
-
-    get CardsDrawnCount(): number{
-        return this.cardsDrawn.count;
-    }
 }
