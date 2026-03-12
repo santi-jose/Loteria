@@ -63,6 +63,7 @@ export class GameManager{
         }
         this.currentCard = currentCard;
         console.log(`Current Card in round: ${this.currentCard?.Name}`);
+        this.notify();
         this.printCardsDrawn();
         this.enterPlay();
     }
@@ -109,7 +110,7 @@ export class GameManager{
         }
 
         // calculate how much time was left in the round
-        const elapsed = (Date.now() - this.playStartTime) / 1000;
+        const elapsed = Math.floor((Date.now() - this.playStartTime) / 1000);
         this.remainingPlayTime = this.remainingPlayTime - elapsed;
 
         // iterate through array of patterns within player Board
@@ -172,10 +173,6 @@ export class GameManager{
         console.log(`CardsDrawn (${cards.length}): ${cards.join(", ")}`);
     }
 
-    startTick(): void{
-
-    }
-
     // notify function for observer design pattern
     subscribe(listener: Listener){
         this.listeners.push(listener);
@@ -190,28 +187,33 @@ export class GameManager{
     }
 
     // engine-level getters
-    getDeckCount(): number{
+    get RemainingTime(): number{
+        if(!this.playStartTime) return 0;
+        const elapsed = Math.floor((Date.now() - this.playStartTime) / 1000);
+        return Math.max(this.remainingPlayTime - elapsed, 0);
+    }
+
+    get DeckCount(): number{
         return this.dealer.Deck.count;
     }
 
-    getDeck(): Deck{
+    get Deck(): Deck{
         return this.dealer.Deck;
     }
 
-    getCardsDrawnCount(): number{
+    get CardsDrawnCount(): number{
         return this.dealer.CardsDrawn.count;
     }
 
-    getCardsDrawn(): Deck{
+    get CardsDrawn(): Deck{
         return this.dealer.CardsDrawn;
     }
 
-    getRemainingPlayTime(): number{
+    get RemainingPlayTime(): number{
         return this.remainingPlayTime;
     }
 
     startGame(): void{
-        this.startTick();
         this.enterStandby();
     }
 }

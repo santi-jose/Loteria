@@ -17,17 +17,8 @@ export default function GameplayPage(){
 
     const { 
         gameConfig, 
-        setGameManager,
-        deckCount,
-        setDeckCount,
-        roundTimer,
-        setRoundTimer,
-        discardPileCount,
-        setDiscardPileCount,
-        activeCard,
-        setActiveCard,
-        playerBoards,
-        setPlayerBoards
+        gameManager,
+        setGameManager
     } = useGame();
 
     // initialize gameManager and enter Standby phase to start game
@@ -43,6 +34,32 @@ export default function GameplayPage(){
         setGameManager(manager);
         manager.startGame();
     }, [gameConfig]);
+
+    // subscribe the listeners
+    useEffect(() => {
+        if(!gameManager) return;
+
+        const listener = () => {
+            setDeckCount(gameManager.DeckCount);
+            setCardsDrawnCount(gameManager.CardsDrawnCount);
+        }
+
+        gameManager.subscribe(listener);
+
+        const interval = setInterval(() => {
+            setRoundTimer(gameManager.RemainingPlayTime);
+        }, 1000);
+        
+        return() => {
+            gameManager.unsubscribe(listener);
+            clearInterval(interval);
+        };
+    }, [gameManager])
+
+    // DealerPanel Props
+    const [deckCount, setDeckCount] = useState(54);
+    const [roundTimer, setRoundTimer] = useState(0);
+    const [cardsDrawnCount, setCardsDrawnCount] = useState(0);
 
     // DealerPanel Props
     // const [roundTimer, setRoundTimer] = useState(configuration.pace);
@@ -222,9 +239,9 @@ export default function GameplayPage(){
             <DealerPanel 
                 roundTimer={roundTimer}
                 deckCount={deckCount}
-                discardPileCount={discardPileCount}
+                discardPileCount={cardsDrawnCount}
             />
-            <div className="mainGamePanel">
+            {/* <div className="mainGamePanel">
                 <AIViewButtons 
                     onViewAIClick={handleViewAIClick}
                     AIPlayerCount={AIPlayerCount}
@@ -235,7 +252,7 @@ export default function GameplayPage(){
                     description={(activeCard===null)? "null":activeCard.Description}
                     image={cardImages[(activeCard===null)? 0: activeCard.ID]}
                 />
-            </div>
+            </div> */}
             <ViewPlayerButton 
                 onViewPlayerClick={handleViewPlayerClick}
             />
