@@ -1,8 +1,12 @@
 import { Dealer } from "./Dealer";
+import { Deck } from "./Deck";
 import { Player } from "./Player";
 import { AIPlayer } from "./AIPlayer";
 import { GameConfig } from "./GameConfig";
 import { Card } from "./Card";
+
+// listener type for observer design pattern
+type Listener = (game: GameManager) => void;
 
 export class GameManager{
     private state: string;
@@ -15,6 +19,8 @@ export class GameManager{
     private playTimer: NodeJS.Timeout | null = null;
     private playStartTime =  0;
     private remainingPlayTime = 0;
+
+    private listeners: Listener[] = [];
 
     constructor(config: GameConfig){
         this.state = "standby";
@@ -161,8 +167,51 @@ export class GameManager{
         console.log(`Play resumed for ${this.remainingPlayTime.toFixed(2)} seconds`);
     }
 
-    printCardsDrawn(){
+    printCardsDrawn(): void{
         const cards = this.dealer.CardsDrawn.Cards.map(c => c.Name);
         console.log(`CardsDrawn (${cards.length}): ${cards.join(", ")}`);
+    }
+
+    startTick(): void{
+
+    }
+
+    // notify function for observer design pattern
+    subscribe(listener: Listener){
+        this.listeners.push(listener);
+    }
+
+    unsubscribe(listener: Listener){
+        this.listeners = this.listeners.filter(l => l !== listener);
+    }
+
+    private notify(): void{
+        this.listeners.forEach(listener => listener(this));
+    }
+
+    // engine-level getters
+    getDeckCount(): number{
+        return this.dealer.Deck.count;
+    }
+
+    getDeck(): Deck{
+        return this.dealer.Deck;
+    }
+
+    getCardsDrawnCount(): number{
+        return this.dealer.CardsDrawn.count;
+    }
+
+    getCardsDrawn(): Deck{
+        return this.dealer.CardsDrawn;
+    }
+
+    getRemainingPlayTime(): number{
+        return this.remainingPlayTime;
+    }
+
+    startGame(): void{
+        this.startTick();
+        this.enterStandby();
     }
 }
