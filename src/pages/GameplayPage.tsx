@@ -11,6 +11,7 @@ import AIOverlay from "../components/gameplay/overlays/AIOverlay";
 import { useGame } from "../context/useGame";
 import { GameManager } from "../game/GameManager";
 import { useNavigate } from "react-router-dom";
+import { Card } from "../game/Card";
 
 export default function GameplayPage(){
     const navigate = useNavigate();
@@ -42,6 +43,7 @@ export default function GameplayPage(){
         const listener = () => {
             setDeckCount(gameManager.DeckCount);
             setCardsDrawnCount(gameManager.CardsDrawnCount);
+            setActiveCard(gameManager.CurrentCard);
         }
 
         gameManager.subscribe(listener);
@@ -60,6 +62,7 @@ export default function GameplayPage(){
     const [deckCount, setDeckCount] = useState(54);
     const [roundTimer, setRoundTimer] = useState(0);
     const [cardsDrawnCount, setCardsDrawnCount] = useState(0);
+    const [activeCard, setActiveCard] = useState<Card>();
 
     // DealerPanel Props
     // const [roundTimer, setRoundTimer] = useState(configuration.pace);
@@ -226,33 +229,23 @@ export default function GameplayPage(){
     return (
         <>
             <h1>GameplayPage</h1>
-            {/* <h2>Configuration</h2>
-            WinCon: 
-            <ul>
-            {configuration.winCon.map((winCon: boolean, i: number) => {
-                return(
-                    winCon ? <li>{winCon[i]}</li>: ""
-                );
-            })}
-            </ul>
-            Pace: {configuration.pace} */}
             <DealerPanel 
                 roundTimer={roundTimer}
                 deckCount={deckCount}
                 discardPileCount={cardsDrawnCount}
             />
-            {/* <div className="mainGamePanel">
+            <div className="mainGamePanel">
                 <AIViewButtons 
                     onViewAIClick={handleViewAIClick}
                     AIPlayerCount={AIPlayerCount}
                 />
                 <ActiveCardPanel 
-                    id={(activeCard===null)? 0 :activeCard.ID }
-                    name={(activeCard===null)? "null":activeCard.Name}
-                    description={(activeCard===null)? "null":activeCard.Description}
-                    image={cardImages[(activeCard===null)? 0: activeCard.ID]}
+                    id={(activeCard===undefined)? 0 :activeCard.ID }
+                    name={(activeCard===undefined)? "null":activeCard.Name}
+                    description={(activeCard===undefined)? "null":activeCard.Description}
+                    image={cardImages[(activeCard===undefined)? 0: activeCard.ID]}
                 />
-            </div> */}
+            </div>
             <ViewPlayerButton 
                 onViewPlayerClick={handleViewPlayerClick}
             />

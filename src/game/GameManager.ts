@@ -213,6 +213,10 @@ export class GameManager{
         return this.remainingPlayTime;
     }
 
+    get CurrentCard(): Card{
+        return this.currentCard;
+    }
+
     startGame(): void{
         this.enterStandby();
     }
