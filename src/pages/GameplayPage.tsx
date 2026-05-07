@@ -44,13 +44,19 @@ export default function GameplayPage(){
             setDeckCount(gameManager.DeckCount);
             setCardsDrawnCount(gameManager.CardsDrawnCount);
             setActiveCard(gameManager.CurrentCard);
+            setRoundTimer(gameManager.RemainingTime);
         }
 
         gameManager.subscribe(listener);
 
+        // synchronize immediately
+        listener();
+
         const interval = setInterval(() => {
-            setRoundTimer(gameManager.RemainingPlayTime);
-        }, 1000);
+            const time = gameManager.RemainingTime;
+            console.log(time);
+            listener();
+        }, 500);
         
         return() => {
             gameManager.unsubscribe(listener);
@@ -63,11 +69,6 @@ export default function GameplayPage(){
     const [roundTimer, setRoundTimer] = useState(0);
     const [cardsDrawnCount, setCardsDrawnCount] = useState(0);
     const [activeCard, setActiveCard] = useState<Card>();
-
-    // DealerPanel Props
-    // const [roundTimer, setRoundTimer] = useState(configuration.pace);
-    // const [deckCount, setDeckCount] = useState(53);
-    // const [discardPileCount, setDiscardPile] = useState(0);
 
     // AIViewButtons Props
     const [overlayAIActive, setOverlayAIView] = useState([false, false, false, false]);
@@ -83,10 +84,7 @@ export default function GameplayPage(){
         setOverlayAIView(newOverlayAIView);
     }
     console.log(`overlayAIActive: ${overlayAIActive}`);
-
-    // dummy card to represent active card
-    const randomIndex = Math.floor(Math.random()*54);
-
+    
     // ActiveCardPanel Props
     // const [activeCard, setActiveCard] = useState(cardData[randomIndex]);
 

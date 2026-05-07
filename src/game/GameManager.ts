@@ -72,13 +72,15 @@ export class GameManager{
         this.state = "play";
         console.log("State = play");
 
-        this.remainingPlayTime = this.config.Pace;
+        this.remainingPlayTime = this.config.Pace * 1000;
         this.playStartTime = Date.now();
+
+        this.notify();
 
         // start timer for transition to standby
         this.playTimer = setTimeout(() => {
             this.enterStandby();
-        }, this.remainingPlayTime * 1000);
+        }, this.remainingPlayTime);
 
         // trigger AIPlayers to play round
         for(const player of this.players){
@@ -96,6 +98,7 @@ export class GameManager{
         }else{
             console.log(`Game Over. Player ${this.winner.Name} wins!`);
         }
+        this.notify();
     }
 
     validateLoteria(player: Player): void{
@@ -110,8 +113,8 @@ export class GameManager{
         }
 
         // calculate how much time was left in the round
-        const elapsed = Math.floor((Date.now() - this.playStartTime) / 1000);
-        this.remainingPlayTime = this.remainingPlayTime - elapsed;
+        const elapsedMs = Math.floor(Date.now() - this.playStartTime);
+        this.remainingPlayTime = (this.remainingPlayTime - elapsedMs);
 
         // iterate through array of patterns within player Board
         for(const pattern of player.Board.checkPatterns()){
@@ -138,6 +141,9 @@ export class GameManager{
              const i = this.randomIndex();
              const j = this.randomIndex();
              player.Board.getTile(i, j).deactivate();
+
+             this.notify();
+
              this.resumePlayRound();
         }
     }
@@ -164,8 +170,8 @@ export class GameManager{
 
         this.playTimer = setTimeout(() => {
             this.enterStandby();
-        }, this.remainingPlayTime * 1000);
-        console.log(`Play resumed for ${this.remainingPlayTime.toFixed(2)} seconds`);
+        }, this.remainingPlayTime);
+        console.log(`Play resumed for ${this.remainingPlayTime.toFixed(2)} milliseconds`);
     }
 
     printCardsDrawn(): void{
@@ -188,9 +194,9 @@ export class GameManager{
 
     // engine-level getters
     get RemainingTime(): number{
-        if(!this.playStartTime) return 0;
-        const elapsed = Math.floor((Date.now() - this.playStartTime) / 1000);
-        return Math.max(this.remainingPlayTime - elapsed, 0);
+        const elapsedMs = (Date.now() - this.playStartTime);
+        const remainingMs = this.remainingPlayTime - elapsedMs;
+        return Math.max(Math.ceil(remainingMs/1000), 0);
     }
 
     get DeckCount(): number{
